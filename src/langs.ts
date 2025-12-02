@@ -22,7 +22,9 @@ export function createLink(editor: vscode.TextEditor, text: string): string {
     // if not an absolute path, prepend current directory
     if (!directory.startsWith("/")) {
         // get path to current file
-        const fsPath = editor.document.uri.fsPath;
+        let fsPath = editor.document.uri.fsPath;
+        // To ensure next line works properly (windows problem)
+        if (fsPath.includes("\\")) fsPath = editor.document.uri.path;
         // get directory of said file
         const fileDirname = fsPath.slice(0, fsPath.lastIndexOf("/"));
         // prepend directory to setting
