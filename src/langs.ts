@@ -61,6 +61,9 @@ export function createLink(editor: vscode.TextEditor, text: string): string {
         case 'restructuredtext':
             return `.. image:: ${filename}`; // TODO: add alt text `\n   :alt: ${alt}`
 
+        case 'typst':
+            return `#image("${filename}")`;
+
         case 'markdown':
         default:
             return `![${alt}](${filename})`;
@@ -96,6 +99,10 @@ export function readLink(language: string, link: string): {
         case 'restructuredtext':
             // TODO: support multiline text for alt
             match = link.match(/..() image:: (.*)/);
+            break;
+
+        case 'typst':
+            match = link.match(/#image(.*)/);
             break;
 
         case 'markdown':
